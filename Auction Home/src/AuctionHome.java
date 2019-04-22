@@ -31,19 +31,17 @@ public class AuctionHome {
 			
 			// This line is an if loop searching the ItemList array, to find the ItemName the user
 			// wants to bid on. If the item isAvialable, then the item amount is changed to bidAmount
-			if (itemName == item.getItemName() && item.isAvilable() == true) {
-				
-				if(bidAmount > item.getAmount()){
-					item.setAmount(bidAmount);
-					item.isFalse();
-					System.out.println("Successful Bid!");
-					menuOption();
-				
-				} else {
+			if (itemName.equals(item.getItemName()) && item.isAvilable() == true && bidAmount > item.getAmount()) {
+				item.setAmount(bidAmount);
+				item.isFalse();
+				System.out.println("Successful Bid!");
+				menuOption();
+			}else if (bidAmount < item.getAmount()) {
 					System.out.println("Bid amount was not enough");
-				}	
+					biddingOnItem();	
 			}else {
 				System.out.println("Item is not found");
+				menuOption();
 			}
 		}	
 	}
@@ -70,13 +68,15 @@ public class AuctionHome {
 			items();
 			menuOption();
 		} else if (option == 2) {
-			//biddingOnItem();
+			biddingOnItem();
 		} else if (option == 3) {
 			addingItemInfo();
 		}
 	}
 	
 	
+
+
 	//Viewing items.
 	public static void items() {
 		System.out.println("-----Here's a listing of items!-----");
@@ -102,6 +102,23 @@ public class AuctionHome {
 		System.out.println("\n>--------------------------------------------");
 
 	}
+	
+	
+	
+	private static void biddingOnItem() {
+		Scanner cin = new Scanner(System.in);
+
+		System.out.println("What item would you like to bid on?");
+		String userItemInput = cin.nextLine();
+		
+		System.out.println("How much would you like to bid on it?");
+		double userItemAmountInput = cin.nextDouble();
+		
+		bid(userItemInput, userItemAmountInput);
+	}
+	
+	
+	
 	
 	public static void addingItemInfo() {
 		Scanner cin = new Scanner(System.in);
