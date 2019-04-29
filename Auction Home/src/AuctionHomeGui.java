@@ -39,32 +39,33 @@ public class AuctionHomeGui {
 		itemList.add(newItem);
 	}
 	
-	// Bid on the item method
-	public static void bid(String itemName, double bidAmount) {
+	public static void bid(String itemName) {
+		Scanner cin = new Scanner(System.in);
+
 		// For loop finding the itemName.
 		// If the itemName is equivalent to what the
 		// user is wanting to bid on, change the 
 		// double amount to the new bidAmount
-		for (int i = 0; i < itemList.size(); i++) {
+		// temporary variable that sets up itemList.get(i)
+		
+		for (Item item : itemList) {
+			if (itemName.equals(item.getItemName())) {
 			
-			// temporary variable that sets up itemList.get(i)
-			Item item = itemList.get(i);
+				System.out.println("How much would you like to bid on it?");
+				double bidAmount = cin.nextDouble();
 			
-			// This line is an if loop searching the ItemList array, to find the ItemName the user
-			// wants to bid on. If the item isAvialable, then the item amount is changed to bidAmount
-			if (itemName.equals(item.getItemName()) && item.isAvilable() == true && bidAmount > item.getAmount()) {
-				item.setAmount(bidAmount);
-				item.isFalse();
-				System.out.println("Successful Bid!");
-				menuOption();
-			}else if (bidAmount < item.getAmount()) {
+				if (item.isAvilable() == true && bidAmount > item.getAmount()) {
+					item.setAmount(bidAmount);
+					item.isFalse();
+					System.out.println("Successful Bid!");
+					menuOption();
+					break;
+				}else if (bidAmount < item.getAmount() && itemName.equals(item.getItemName())) {
 					System.out.println("Bid amount was not enough");
-					biddingOnItem();	
-			}else {
-				System.out.println("Item is not found");
-				menuOption();
+					menuOption();	
+				}
 			}
-		}	
+		}
 	}
 	
 	
@@ -135,7 +136,7 @@ public class AuctionHomeGui {
 		System.out.println("How much would you like to bid on it?");
 		double userItemAmountInput = cin.nextDouble();
 		
-		bid(userItemInput, userItemAmountInput);
+		bid(userItemInput);
 	}
 	
 	

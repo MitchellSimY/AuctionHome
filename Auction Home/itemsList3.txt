@@ -1,0 +1,4 @@
+iPhone,50.0,New iphone 2019
+Bike,15.0,Used bike Model X
+iPhone,50.0,New iphone 2019
+Bike,15.0,Used bike Model X

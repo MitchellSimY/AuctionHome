@@ -1,14 +1,32 @@
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.*;
+
 
 public class AuctionHome {
 	
 	//Creating the ArrayList object.
 	static ArrayList<Item> itemList = new ArrayList<>();
 	
+	static File itemsListText = new File ("itemsList4.txt");
+	
+	
+	
+	
+	
+	
 	// Add item method.
 	public static void addItem(String itemName, double amount, 
 			String itemDescription) {
+		
+		
 		
 		// Creating the new item object.
 		// This creates a new item with the 
@@ -16,7 +34,32 @@ public class AuctionHome {
 		Item newItem = new Item(itemName, amount, itemDescription);
 		
 		itemList.add(newItem);
+		
+		
+		
+		try {
+			
+			//TRUE: KEEPS APPENDING. NOT OVER-WRITING.
+			PrintWriter outputTxt = new PrintWriter(new FileOutputStream(itemsListText, true));
+
+				
+			//printing to the file
+			outputTxt.append(newItem.getItemName() + "," + newItem.getAmount() + "," + newItem.getItemDescription());
+			outputTxt.append(System.getProperty("line.separator"));
+			
+			//flushing puts it into the actual file
+			outputTxt.flush();
+			
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
+		
+		
+		
+
+		
 	
 	// Bid on the item method
 	public static void bid(String itemName) {
@@ -36,8 +79,33 @@ public class AuctionHome {
 			
 				if (item.isAvilable() == true && bidAmount > item.getAmount()) {
 					item.setAmount(bidAmount);
-					item.isFalse();
+					//item.isFalse();
 					System.out.println("Successful Bid!");
+					
+					// TRY AND CATCH FOR THE OUTPUT APPEND
+					try (BufferedReader in = new BufferedReader(new FileReader("itemsList4.txt"))) {
+						PrintWriter outputTxt = new PrintWriter(new FileOutputStream(itemsListText, true));
+
+						String str;
+						while ((str = in.readLine()) != null) {
+						
+						
+						String[] tokens = str.split(",");
+						String itemNameText = String(tokens[0]);
+						double itemAmountText = Double.parseDouble(tokens[1]);
+						System.out.println(itemAmountText);
+						
+//						itemAmountText = bidAmount;
+//						System.out.println(itemAmountText);
+						
+						
+						}
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+
+					
 					menuOption();
 					break;
 				}else if (bidAmount < item.getAmount() && itemName.equals(item.getItemName())) {
@@ -51,6 +119,16 @@ public class AuctionHome {
 	
 	
 	
+	private static String String(String string) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+
+
+
+
 	//========================================================================================
 	//=========================OPTIONS OPTIONS OPTIONS OPTIONS================================
 	
@@ -113,7 +191,6 @@ public class AuctionHome {
 
 		System.out.println("What item would you like to bid on?");
 		String userItemInput = cin.nextLine();
-		
 		bid(userItemInput);
 	}
 	
